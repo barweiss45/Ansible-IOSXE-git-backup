@@ -1,4 +1,2 @@
-ansible==4.7.0
-ansible-core==2.11.6
-paramiko==2.8.1
-netmiko==3.4.0
+ansible>=4.7.0
+netmiko>=3.4.0
