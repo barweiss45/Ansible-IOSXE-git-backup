@@ -1,0 +1,13 @@
+---
+all:
+  children:
+    routers:
+      children:
+        csr1000v:
+          hosts:
+            csr1000v-test-01:
+        iosxrv:
+          hosts:
+            foobar-test-01:
+    switches:
+    firewalls:
