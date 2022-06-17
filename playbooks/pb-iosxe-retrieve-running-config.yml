@@ -1,0 +1,16 @@
+---
+# THIS IS A TEMPLATE THAT CAN BE USED TO CREATE A PLAY BOOK
+- name: "PLAY 1: RETRIEVE THE RUNNING CONFIG FROM NETWORK DEVICE"
+  hosts: csr1000v          # THIS WILL REFER TO THE HOST/GROUP THAT THIS PLAY IS TARGETING
+  connection: network_cli  # FOR NETWORK DEVICES THE CONNECTION WILL BE 'network_cli'
+  gather_facts: false
+
+  tasks:                   # BELOW TASKS IS WHERE EACH TASK IS DEFINED
+    - name: "TASK 1: RUN 'SHOW RUN' COMMAND ON Network Device"
+      ios_command:
+        commands: "show run"
+      register: running_configuration_output
+
+    - name: "TASK 2: DISPLAY OUTPUT OF RUNNING CONFIG FROM TASK 1 "
+      debug:
+        msg: "{{ running_configuration_output }}"
