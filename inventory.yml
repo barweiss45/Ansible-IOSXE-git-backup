@@ -6,6 +6,8 @@ all:
         csr1000v:
           hosts:
             csr1000v-test-01:
+            csr1000v-test-02:
+            sandbox-iosxe-recomm-1.cisco.com:
         iosxrv:
           hosts:
             foobar-test-01:
