@@ -1,0 +1,4 @@
+# Ansible Galaxy Collections
+# ansible-galaxy collection install -r requirements.yml
+collections:
+  - lvrfrc87.git_acp
