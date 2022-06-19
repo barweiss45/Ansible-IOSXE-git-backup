@@ -4,13 +4,46 @@
   hosts: csr1000v          # THIS WILL REFER TO THE HOST/GROUP THAT THIS PLAY IS TARGETING
   connection: network_cli  # FOR NETWORK DEVICES THE CONNECTION WILL BE 'network_cli'
   gather_facts: false
+  collections:
+    - lvrfrc87.git_acp
+  vars:
+    working_dir: ~/configuration_backups/
+    repo_branch: main
+    remote_repo: git@github.com:barweiss45/configuration_backups.git
 
-  tasks:                   # BELOW TASKS IS WHERE EACH TASK IS DEFINED
-    - name: "TASK 1: RUN 'SHOW RUN' COMMAND ON Network Device"
+  tasks:
+    - name: "TASK 1: Access IOSv devices and retrieve running configuration"
       ios_command:
-        commands: "show run"
-      register: running_configuration_output
+        commands: "show running-config"
+      register: cli_result
 
-    - name: "TASK 2: DISPLAY OUTPUT OF RUNNING CONFIG FROM TASK 1 "
+    - name: "Test the shell module"
+      ansible.builtin.command:
+        cmd: /usr/bin/date -u +"%Y%m%dT%H%M%SZ"
+      register: date_from_shell
+
+    - name: "TASK 2: Print running configuration output"
       debug:
-        msg: "{{ running_configuration_output }}"
+        msg: " {{ cli_result.stdout[0] }} "
+
+    - name: "TASK 4: Create outputs/ folder"
+      file:
+        path: "~/configuration_backups/{{ inventory_hostname }}"
+        state: directory
+        mode: 0775
+      run_once: true
+
+    - name: "TASK 5: Write output to file"
+      copy:
+        content: "{{ cli_result.stdout[0] }}"
+        dest: "~/configuration_backups/{{ inventory_hostname }}/{{ inventory_hostname }}-running-configuration.cfg"
+        mode: 0664
+
+    - name: Update and push configitruation to remote repo
+      git_acp:
+        path: "{{ working_dir }}"
+        branch: "{{ repo_branch }}"
+        add: ["."]
+        comment: "Updated {{ date_from_shell.stdout_lines[0] }}"
+        mode: ssh
+        url: "{{ remote_repo }}"

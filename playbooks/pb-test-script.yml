@@ -1,0 +1,24 @@
+---
+- name: "TEST Script"
+  hosts: localhost
+  become: false
+  gather_facts: true
+
+  tasks:
+
+#    - name: Display the availble timestamp format in Ansible
+#      debug:
+#        var: ansible_date_time.date
+#      register: timestamp
+
+#    - name: Print out variable
+#       ansible_date_time.iso8601_basic_short }}"
+
+#      - name: "Test the shell module"
+#        ansible.builtin.shell:
+#          cmd: /usr/bin/date -u +"%Y%m%dT%H%M%SZ"
+#        register: date_from_shell
+
+#      - name: "Display the date"
+#        debug:
+#          msg: "{{ date_from_shell.stdout_lines }}"
