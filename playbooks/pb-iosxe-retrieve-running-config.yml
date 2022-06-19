@@ -31,7 +31,6 @@
         path: "~/configuration_backups/{{ inventory_hostname }}"
         state: directory
         mode: 0775
-      run_once: true
 
     - name: "TASK 5: Write output to file"
       copy:
